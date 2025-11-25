@@ -6,7 +6,6 @@ A retro-style instant camera photobooth web app with a modern, clean UI inspired
 
 - 📸 **Instant Camera Experience**: Capture photos using your webcam with a retro polaroid camera interface
 - 🎨 **Light, Modern UI**: Clean, minimalist design with a light color palette
-- 📤 **Gallery Sharing**: Upload photos to a public gallery powered by Supabase
 - 📧 **Email Sharing**: Send photos via email with a pre-filled template
 - 🎯 **Interactive Polaroids**: Drag, flip, and customize your polaroid photos
 - 📱 **Mobile Responsive**: Works seamlessly on desktop and mobile devices
@@ -25,7 +24,7 @@ A retro-style instant camera photobooth web app with a modern, clean UI inspired
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/jackyzhong0124/cursor-photobooth.git
+   git clone https://github.com/Jacky040124/cursor-photobooth.git
    cd cursor-photobooth
    ```
 
@@ -78,7 +77,6 @@ A retro-style instant camera photobooth web app with a modern, clean UI inspired
 1. Create a new Supabase project at [supabase.com](https://supabase.com)
 2. Run the SQL migration from `supabase_migration.sql` in your Supabase SQL Editor
 3. This will create:
-   - A `gallery` table for storing photo metadata
    - A `photos` storage bucket for storing images
    - Row Level Security policies for public read/write access
 4. Get your credentials from Project Settings > API
@@ -88,10 +86,8 @@ A retro-style instant camera photobooth web app with a modern, clean UI inspired
 1. Allow camera access when prompted
 2. Click the shutter button to capture a photo
 3. Drag polaroids around the desk
-4. Click "Add to Gallery" to share publicly
-5. Click "Email" to send via email
-6. Click "View Gallery" to see all shared photos
-7. Click "Download" to save your collage
+4. Click "Email" to send via email
+5. Click "Download" to save your collage
 
 ## Project Structure
 
@@ -112,7 +108,7 @@ MIT License - feel free to use this project for your own purposes!
 
 **Jacky Zhong**
 - X: [@JackyZhong0124](https://x.com/JackyZhong0124)
-- GitHub: [@jackyzhong0124](https://github.com/jackyzhong0124)
+- GitHub: [@Jacky040124](https://github.com/Jacky040124)
 
 ## Acknowledgments
 

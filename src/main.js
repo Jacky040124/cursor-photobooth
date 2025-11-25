@@ -28,6 +28,7 @@ let pendingEmailPolaroid = null;
 // printSound.volume = 0.6;
 
 let demosCleared = false;
+let pendingUpload = null;
 
 navigator.mediaDevices
   .getUserMedia({ video: { facingMode: 'user', width: 480, height: 480 } })
@@ -132,19 +133,6 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
     captionMain.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') e.preventDefault();
     });
-
-    // Persist caption to database when user finishes editing
-    captionMain.addEventListener('blur', function () {
-      const caption = this.textContent.trim();
-      // Store pending caption on the element (for when upload completes)
-      div.dataset.pendingCaption = caption;
-      
-      const galleryId = div.dataset.galleryId;
-      if (galleryId) {
-        updatePhotoCaption(galleryId, caption);
-      }
-      // If galleryId not set yet, uploadPhotoToStorage will handle it when it completes
-    });
   }
 
   makeDraggable(div);
@@ -228,48 +216,11 @@ async function uploadPhotoToStorage(dataUrl, polaroidElement) {
     // Store public URL on polaroid element for use by email feature
     polaroidElement.dataset.publicUrl = publicUrl;
 
-    // Check if user already entered a caption while uploading
-    const pendingCaption = polaroidElement.dataset.pendingCaption || '';
-    
-    // Insert record into gallery table and get the ID back
-    const { data: dbData, error: dbError } = await supabase.from('gallery').insert([{
-      url: publicUrl,
-      caption: pendingCaption,
-      event_id: null,
-      created_at: new Date()
-    }]).select('id').single();
-
-    if (dbError) throw dbError;
-
-    // Store gallery record ID on polaroid for caption updates
-    polaroidElement.dataset.galleryId = dbData.id;
-
-    console.log('Photo saved to Supabase:', publicUrl, 'ID:', dbData.id, 'Caption:', pendingCaption);
+    console.log('Photo saved to Supabase:', publicUrl);
 
   } catch (error) {
     console.error('Auto-upload error:', error);
     // Silent fail - don't disrupt user experience
-  }
-}
-
-/**
- * Updates the caption for a photo in the gallery table.
- * @param {string} galleryId - The gallery record ID
- * @param {string} caption - The new caption text
- */
-async function updatePhotoCaption(galleryId, caption) {
-  if (!galleryId) return;
-  
-  try {
-    const { error } = await supabase
-      .from('gallery')
-      .update({ caption })
-      .eq('id', galleryId);
-
-    if (error) throw error;
-    console.log('Caption updated for photo:', galleryId);
-  } catch (error) {
-    console.error('Caption update error:', error);
   }
 }
 
@@ -388,6 +339,7 @@ function makeDraggable(elm) {
   function dragStart(e) {
     if (
       e.target.closest('.caption-main') ||
+      // e.target.closest('.polaroid-share-btn') ||
       e.target.closest('.polaroid-email-btn') ||
       e.target.closest('.flip-btn')
     ) return;

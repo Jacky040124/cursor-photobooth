@@ -36,24 +36,32 @@ body {
   font-family: var(--font-ui);
   color: var(--text-primary);
   overflow: hidden;
-  position: relative;
+  display: flex;
+  flex-direction: row;
   user-select: none;
   touch-action: none;
 }
 
-/* --- Bottom Left: Camera Zone --- */
+/* --- Left Pane: Camera Zone --- */
 .camera-zone {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
+  flex: 0 0 450px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   z-index: 20;
-  padding: 0;
+  padding: 40px;
+  background: linear-gradient(to right, rgba(255,255,255,0.8), rgba(255,255,255,0));
+  border-right: 1px solid transparent;
 }
 
 .camera-wrapper {
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
 }
 
 .camera-img {
@@ -145,12 +153,10 @@ video#cam-feed {
 }
 
 .desk-zone {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10;
+  flex: 1;
+  position: relative;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
 }
 
 .btn-container {
@@ -411,7 +417,7 @@ video#cam-feed {
     pointer-events: auto;
 }
 
-.polaroid-share-btn, .polaroid-email-btn {
+.polaroid-email-btn {
   background: var(--accent);
   color: white;
   border: none;
@@ -426,31 +432,21 @@ video#cam-feed {
   transition: all 0.2s;
 }
 
-.polaroid-share-btn:hover, .polaroid-email-btn:hover {
+.polaroid-email-btn:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
 }
 
-.polaroid-share-btn.uploading {
+.polaroid-email-btn.uploading {
   background: var(--panel-bg);
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
   cursor: not-allowed;
 }
 
-.polaroid-share-btn.success {
+.polaroid-email-btn.success {
   background: var(--success);
   color: #fff;
-}
-
-.polaroid-email-btn {
-    background: var(--panel-bg);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-.polaroid-email-btn:hover {
-    background: var(--border-color);
-    color: var(--text-primary);
 }
 
 .flip-tooltip {
@@ -504,236 +500,6 @@ video#cam-feed {
   transition: opacity 0.1s;
 }
 .flash-active { opacity: 0.8; }
-
-.bottom-nav {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-  right: 24px;
-  z-index: 150;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none;
-}
-.bottom-nav > * { pointer-events: auto; }
-
-.pin-board {
-  position: relative;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 16px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  color: var(--text-primary);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.pin-board:hover {
-  background: var(--panel-bg);
-  border-color: var(--accent);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-  transform: translateY(-2px);
-}
-
-.pin-board-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-}
-
-.pin-board-content::before {
-  content: '📌';
-  font-size: 14px;
-}
-
-.once-link {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.2s;
-  text-align: right;
-  opacity: 0.7;
-}
-.once-link:hover { color: var(--text-primary); opacity: 1; }
-
-.confirm-modal, .pin-board-modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(4px);
-  z-index: 2000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.confirm-modal.open, .pin-board-modal.open { display: flex; }
-
-.confirm-modal-content {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 30px;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  color: var(--text-primary);
-}
-
-.confirm-modal-icon { font-size: 32px; margin-bottom: 16px; }
-
-.confirm-modal-title {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 18px;
-  margin: 0 0 12px 0;
-  color: var(--text-primary);
-}
-
-.confirm-modal-message {
-  font-family: var(--font-ui);
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 24px;
-}
-
-.confirm-modal-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.confirm-btn {
-  font-family: var(--font-ui);
-  font-weight: 500;
-  font-size: 13px;
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-width: 100px;
-}
-
-.confirm-btn-yes {
-  background: var(--accent);
-  color: white;
-}
-.confirm-btn-yes:hover { background: var(--accent-hover); }
-
-.confirm-btn-no {
-  background: transparent;
-  border-color: var(--border-color);
-  color: var(--text-primary);
-}
-.confirm-btn-no:hover { background: var(--border-color); }
-
-.pin-board-modal-content {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 30px;
-  max-width: 90%;
-  width: 100%;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-  position: relative;
-}
-
-.pin-board-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.pin-board-modal-title {
-  font-family: var(--font-ui);
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.pin-board-modal-close {
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-.pin-board-modal-close:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
-}
-
-.pin-board-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 10px;
-  overflow-y: auto;
-  flex: 1;
-  align-content: flex-start;
-  justify-content: center;
-}
-
-.gallery-item {
-  width: 160px;
-  background: #fbfbfb;
-  padding: 10px 10px 40px 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-  position: relative;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-.gallery-item:hover {
-    transform: scale(1.05);
-    z-index: 10;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-.gallery-item img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    background: #eee;
-    border: 1px solid rgba(0,0,0,0.05);
-}
-.gallery-caption {
-    position: absolute;
-    bottom: 12px;
-    left: 10px;
-    right: 10px;
-    text-align: center;
-    font-family: var(--font-hand);
-    font-size: 11px;
-    color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 /* Email Modal */
 .email-modal {
@@ -857,14 +623,15 @@ video#cam-feed {
 .email-status.error { color: var(--danger); }
 
 @media (max-width: 768px) {
+  body { flex-direction: column; }
   .camera-zone {
-    bottom: 16px;
-    left: 16px;
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    padding: 60px 20px 30px 20px;
+    background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
   }
-  .camera-wrapper {
-    width: 240px;
-    height: 240px;
-  }
+  .desk-zone { width: 100%; height: 100%; }
   .twitter-link { top: 10px; left: 10px; padding: 6px 10px; }
   .github-link { top: 10px; left: 140px !important; padding: 6px 10px; }
   .btn-container { top: 10px; right: 10px; }
