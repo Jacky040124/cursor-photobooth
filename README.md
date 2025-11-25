@@ -87,4 +87,5 @@ MIT License - feel free to use this project for your own purposes!
 
 - Inspired by retro instant cameras and the Cursor IDE aesthetic
 - Uses [Permanent Marker](https://fonts.google.com/specimen/Permanent+Marker) font for authentic polaroid handwriting feel
+- Special thanks to [@ann_nnng](https://x.com/ann_nnng) for inspiration and support
 
