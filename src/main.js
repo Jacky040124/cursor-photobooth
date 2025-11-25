@@ -1,5 +1,5 @@
 // Import Supabase client
-import { supabase } from './supabaseClient.js';
+import { supabase } from './lib/supabase.js';
 
 const video = document.getElementById('cam-feed');
 const canvas = document.getElementById('canvas');
@@ -7,10 +7,7 @@ const shutter = document.getElementById('shutter');
 const slot = document.getElementById('slot');
 const flash = document.getElementById('flash');
 const desk = document.getElementById('desk');
-const resetBtn = document.getElementById('reset-btn');
-const downloadBtn = document.getElementById('download-btn');
 const cameraZone = document.querySelector('.camera-zone');
-const btnContainer = document.querySelector('.btn-container');
 const confirmModal = document.getElementById('confirm-modal');
 const confirmYes = document.getElementById('confirm-yes');
 const confirmNo = document.getElementById('confirm-no');
@@ -186,44 +183,6 @@ function clearDemos() {
   });
 }
 
-resetBtn.addEventListener('click', () => {
-  document.querySelectorAll('.polaroid').forEach((p) => p.remove());
-  demosCleared = false;
-  desk.innerHTML = '';
-  slot.innerHTML = '';
-  // spawnDemos(); // Disabled demo feature
-});
-
-downloadBtn.addEventListener('click', () => {
-  cameraZone.style.display = 'none';
-  btnContainer.style.display = 'none';
-  document.body.style.backgroundImage = 'none';
-  document.body.style.backgroundColor = '#f4f4f5';
-
-  html2canvas(document.body, {
-    backgroundColor: '#f4f4f5', 
-    useCORS: true,
-    scale: 2,
-  })
-    .then((canvas) => {
-      const link = document.createElement('a');
-      link.download = 'my-polaroid-collage.png';
-      link.href = canvas.toDataURL();
-      link.click();
-      cameraZone.style.display = 'flex';
-      btnContainer.style.display = 'flex';
-      document.body.style.backgroundImage = '';
-      document.body.style.backgroundColor = '';
-    })
-    .catch((err) => {
-      console.error('Screenshot failed', err);
-      alert('Could not download image.');
-      cameraZone.style.display = 'flex';
-      btnContainer.style.display = 'flex';
-      document.body.style.backgroundImage = '';
-      document.body.style.backgroundColor = '';
-    });
-});
 
 shutter.addEventListener('click', (e) => {
   e.preventDefault();

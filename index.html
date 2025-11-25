@@ -51,19 +51,19 @@
     <meta property="twitter:image" content="https://image.social/get?url=bubbbly.com/app/retro-camera.html" />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="https://www.mayimeetyou.online/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="16x16" href="https://www.mayimeetyou.online/favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="https://www.mayimeetyou.online/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="https://www.mayimeetyou.online/favicon-96x96.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="https://www.mayimeetyou.online/favicon-192x192.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="https://www.mayimeetyou.online/apple-icon-152x152.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="https://www.mayimeetyou.online/apple-icon-180x180.png" />
-    <meta itemprop="image" content="https://www.mayimeetyou.online/favicon-192x192.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+    <meta itemprop="image" content="/favicon-192x192.png" />
 
     <!-- Theme Colors -->
     <meta name="theme-color" content="#f4f4f5" />
     <meta name="msapplication-TileColor" content="#f4f4f5" />
-    <meta name="msapplication-TileImage" content="https://www.mayimeetyou.online/ms-icon-144x144.png" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
@@ -71,11 +71,8 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.mayimeetyou.online/" />
 
-    <!-- External Libraries -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
     <a
@@ -104,10 +101,6 @@
        <span class="twitter-text-short">GH</span>
     </a>
 
-    <div class="btn-container">
-      <button class="action-btn" id="download-btn" title="Download Collage">Download</button>
-      <button class="action-btn" id="reset-btn" title="Clear all photos">Reset</button>
-    </div>
 
     <div class="camera-zone">
       <div class="camera-wrapper">
@@ -116,7 +109,7 @@
           <video id="cam-feed" autoplay playsinline muted></video>
           <div class="lens-shine"></div>
         </div>
-        <img src="https://www.mayimeetyou.online/retro-camera.webp" class="camera-img" alt="Retro Camera" />
+        <img src="/images/retro-camera.webp" class="camera-img" alt="Retro Camera" />
         <div class="shutter-btn" id="shutter"></div>
       </div>
     </div>
@@ -131,9 +124,6 @@
         <div class="pin-board-content">
           <div>View Gallery</div>
         </div>
-      </a>
-      <a href="https://once.film/" target="_blank" rel="noopener noreferrer" class="once-link">
-        Captured via Once<br /><span style="opacity:0.6; font-size:10px;">The retro way</span>
       </a>
     </div>
 
@@ -189,7 +179,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script type="module" src="app.js"></script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
 

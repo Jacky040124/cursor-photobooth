@@ -112,8 +112,8 @@ video#cam-feed {
 
 .shutter-btn {
   position: absolute;
-  bottom: 42%;
-  left: 18%;
+  bottom: 40%;
+  left: 17.3%;
   width: 11%;
   height: 11%;
   border-radius: 50%;
@@ -221,15 +221,6 @@ video#cam-feed {
   transform: translateY(0);
 }
 
-#download-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-#reset-btn:hover {
-  border-color: var(--danger);
-  color: var(--danger);
-}
 
 .polaroid {
   width: 180px;
@@ -341,8 +332,8 @@ video#cam-feed {
 }
 
 .polaroid .caption-main:empty::before {
-  content: '';
-  opacity: 0.4;
+  content: 'Write a caption...';
+  opacity: 0.6;
 }
 
 .polaroid .caption-date {
@@ -415,9 +406,13 @@ video#cam-feed {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    margin-top: -10px;
 }
 
-.polaroid.can-share:hover .polaroid-actions {
+.polaroid.can-share:hover .polaroid-actions,
+.polaroid.can-share .polaroid-actions:hover {
     opacity: 1;
     pointer-events: auto;
 }
