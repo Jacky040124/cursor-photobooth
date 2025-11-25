@@ -568,24 +568,6 @@
         transform: translateY(-50%) scale(1.1);
       }
 
-      .secret-input {
-        width: 100%;
-        height: 100px;
-        border: 1px dashed #d4d4d8;
-        padding: 10px;
-        font-family: var(--font-hand);
-        font-size: 14px;
-        color: #333;
-        resize: none;
-        background: #f4f4f5;
-        margin-bottom: 10px;
-        border-radius: 4px;
-      }
-      .secret-input:focus {
-        border-color: #a1a1aa;
-        background: #fff;
-      }
-
       /* Action Buttons on Polaroid */
       .polaroid-actions {
           position: absolute;
@@ -1285,9 +1267,7 @@
       spawnDemos();
 
       function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, isNew = false) {
-        const MAX_LETTERS = 27;
-        const MAX_CAPTION_LENGTH = 14;
-        const MAX_SECRET_LENGTH = 20;
+        const MAX_CAPTION_LENGTH = 27;
 
         const div = document.createElement('div');
         div.className = isDemo ? 'polaroid demo-polaroid' : 'polaroid';
@@ -1304,14 +1284,12 @@
               <button class="flip-btn" title="Flip to back">↻</button>
               <div class="caption-main" contenteditable="true" spellcheck="false">May I meet you</div>
               <div class="caption-date">${dateStr}</div>
-              <div class="flip-tooltip">Flip to write message</div>
             </div>
           <div class="polaroid-back">
              <div class="polaroid-actions">
                   <button class="polaroid-share-btn">Add to Gallery</button>
                   <button class="polaroid-email-btn" title="Send via Email">Email</button>
               </div>
-            <textarea class="secret-input" placeholder="Secret message..."></textarea>
             <button class="flip-btn" title="Flip to front">↻</button>
           </div>
           </div>
@@ -1336,10 +1314,6 @@
             e.stopPropagation();
             div.classList.toggle('flipped');
         }));
-
-        const secretInput = div.querySelector('.secret-input');
-        secretInput.addEventListener('mousedown', (e) => e.stopPropagation());
-        secretInput.addEventListener('touchstart', (e) => e.stopPropagation());
 
         const shareBtns = div.querySelectorAll('.polaroid-share-btn');
         shareBtns.forEach(shareBtn => {
@@ -1367,14 +1341,11 @@
         });
 
         const captionMain = div.querySelector('.caption-main');
-        if (captionMain && secretInput) {
+        if (captionMain) {
           captionMain.addEventListener('input', function () {
             const text = this.textContent;
-            const currentSecretLen = secretInput.value.length;
-            const dynamicMax = MAX_LETTERS - currentSecretLen;
-            const allowedLen = Math.min(MAX_CAPTION_LENGTH, dynamicMax);
-            if (text.length > allowedLen) {
-              this.textContent = text.substring(0, allowedLen);
+            if (text.length > MAX_CAPTION_LENGTH) {
+              this.textContent = text.substring(0, MAX_CAPTION_LENGTH);
               const range = document.createRange();
               const sel = window.getSelection();
               range.selectNodeContents(this);
@@ -1386,14 +1357,6 @@
 
           captionMain.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') e.preventDefault();
-          });
-
-          secretInput.addEventListener('input', function () {
-            const text = this.value;
-            const currentCaptionLen = captionMain.textContent.length;
-            const dynamicMax = MAX_LETTERS - currentCaptionLen;
-            const allowedLen = Math.min(MAX_SECRET_LENGTH, dynamicMax);
-            if (text.length > allowedLen) this.value = text.substring(0, allowedLen);
           });
         }
 
@@ -1568,12 +1531,10 @@
 
           // 4. Insert Record into Database
           const caption = polaroidElement.querySelector('.caption-main').innerText.trim();
-          const secret = polaroidElement.querySelector('.secret-input').value.trim();
           
           const { error: dbError } = await supabase.from('gallery').insert([{
               url: publicUrl,
               caption: caption,
-              secret: secret,
               created_at: new Date()
           }]);
           
@@ -1774,8 +1735,7 @@
             e.target.closest('.caption-main') ||
             e.target.closest('.polaroid-share-btn') ||
             e.target.closest('.polaroid-email-btn') ||
-            e.target.closest('.flip-btn') ||
-            e.target.closest('.secret-input')
+            e.target.closest('.flip-btn')
           ) return;
 
           e.preventDefault();

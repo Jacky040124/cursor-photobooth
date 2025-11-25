@@ -77,9 +77,7 @@ function spawnDemos() {
 spawnDemos();
 
 function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, isNew = false) {
-  const MAX_LETTERS = 27;
-  const MAX_CAPTION_LENGTH = 14;
-  const MAX_SECRET_LENGTH = 20;
+  const MAX_CAPTION_LENGTH = 27;
 
   const div = document.createElement('div');
   div.className = isDemo ? 'polaroid demo-polaroid' : 'polaroid';
@@ -96,14 +94,12 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
         <button class="flip-btn" title="Flip to back">↻</button>
         <div class="caption-main" contenteditable="true" spellcheck="false"></div>
         <div class="caption-date">${dateStr}</div>
-        <div class="flip-tooltip">Flip to write message</div>
       </div>
     <div class="polaroid-back">
        <div class="polaroid-actions">
             <button class="polaroid-share-btn">Add to Gallery</button>
             <button class="polaroid-email-btn" title="Send via Email">Email</button>
         </div>
-      <textarea class="secret-input" placeholder="Secret message..."></textarea>
       <button class="flip-btn" title="Flip to front">↻</button>
     </div>
     </div>
@@ -129,9 +125,6 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
       div.classList.toggle('flipped');
   }));
 
-  const secretInput = div.querySelector('.secret-input');
-  secretInput.addEventListener('mousedown', (e) => e.stopPropagation());
-  secretInput.addEventListener('touchstart', (e) => e.stopPropagation());
 
   const shareBtns = div.querySelectorAll('.polaroid-share-btn');
   shareBtns.forEach(shareBtn => {
@@ -158,14 +151,11 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
   });
 
   const captionMain = div.querySelector('.caption-main');
-  if (captionMain && secretInput) {
+  if (captionMain) {
     captionMain.addEventListener('input', function () {
       const text = this.textContent;
-      const currentSecretLen = secretInput.value.length;
-      const dynamicMax = MAX_LETTERS - currentSecretLen;
-      const allowedLen = Math.min(MAX_CAPTION_LENGTH, dynamicMax);
-      if (text.length > allowedLen) {
-        this.textContent = text.substring(0, allowedLen);
+      if (text.length > MAX_CAPTION_LENGTH) {
+        this.textContent = text.substring(0, MAX_CAPTION_LENGTH);
         const range = document.createRange();
         const sel = window.getSelection();
         range.selectNodeContents(this);
@@ -177,14 +167,6 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
 
     captionMain.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') e.preventDefault();
-    });
-
-    secretInput.addEventListener('input', function () {
-      const text = this.value;
-      const currentCaptionLen = captionMain.textContent.length;
-      const dynamicMax = MAX_LETTERS - currentCaptionLen;
-      const allowedLen = Math.min(MAX_SECRET_LENGTH, dynamicMax);
-      if (text.length > allowedLen) this.value = text.substring(0, allowedLen);
     });
   }
 
@@ -355,12 +337,10 @@ async function uploadPolaroidImage(polaroidElement, clickedBtn) {
     polaroidElement.dataset.publicUrl = publicUrl;
 
     const caption = polaroidElement.querySelector('.caption-main').innerText.trim();
-    const secret = polaroidElement.querySelector('.secret-input').value.trim();
     
     const { error: dbError } = await supabase.from('gallery').insert([{
         url: publicUrl,
         caption: caption,
-        secret: secret,
         created_at: new Date()
     }]);
     
@@ -371,10 +351,6 @@ async function uploadPolaroidImage(polaroidElement, clickedBtn) {
       btn.classList.add('success');
       btn.textContent = '✓ Published';
     });
-    
-    if(emailAfter) {
-        sendEmail(publicUrl);
-    }
 
     setTimeout(() => {
        allShareBtns.forEach(btn => {
@@ -550,8 +526,7 @@ function makeDraggable(elm) {
       e.target.closest('.caption-main') ||
       e.target.closest('.polaroid-share-btn') ||
       e.target.closest('.polaroid-email-btn') ||
-      e.target.closest('.flip-btn') ||
-      e.target.closest('.secret-input')
+      e.target.closest('.flip-btn')
     ) return;
 
     e.preventDefault();

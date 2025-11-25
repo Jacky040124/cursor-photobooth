@@ -36,7 +36,6 @@ A retro-style instant camera photobooth web app with a modern, clean UI inspired
        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
        url TEXT NOT NULL,
        caption TEXT,
-       secret TEXT,
        created_at TIMESTAMPTZ DEFAULT NOW()
      );
      ```
@@ -56,11 +55,10 @@ A retro-style instant camera photobooth web app with a modern, clean UI inspired
 1. Allow camera access when prompted
 2. Click the shutter button to capture a photo
 3. Drag polaroids around the desk
-4. Click "Flip" to write a secret message on the back
-5. Click "Add to Gallery" to share publicly
-6. Click "Email" to send via email
-7. Click "View Gallery" to see all shared photos
-8. Click "Download" to save your collage
+4. Click "Add to Gallery" to share publicly
+5. Click "Email" to send via email
+6. Click "View Gallery" to see all shared photos
+7. Click "Download" to save your collage
 
 ## Project Structure
 

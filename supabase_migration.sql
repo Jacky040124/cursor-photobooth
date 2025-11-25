@@ -12,7 +12,6 @@ CREATE TABLE public.gallery (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   url TEXT NOT NULL,
   caption TEXT,
-  secret TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
