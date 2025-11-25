@@ -90,7 +90,7 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
       <div class="polaroid-front">
         <img src="${imgSrc}">
         <div class="polaroid-actions">
-            <button class="polaroid-share-btn">Add to Gallery</button>
+            <!-- <button class="polaroid-share-btn">Add to Gallery</button> -->
             <button class="polaroid-email-btn" title="Send via Email">Email</button>
         </div>
         <button class="flip-btn" title="Flip to back">↻</button>
@@ -99,7 +99,7 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
       </div>
     <div class="polaroid-back">
        <div class="polaroid-actions">
-            <button class="polaroid-share-btn">Add to Gallery</button>
+            <!-- <button class="polaroid-share-btn">Add to Gallery</button> -->
             <button class="polaroid-email-btn" title="Send via Email">Email</button>
         </div>
       <button class="flip-btn" title="Flip to front">↻</button>
@@ -128,19 +128,20 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
   }));
 
 
-  const shareBtns = div.querySelectorAll('.polaroid-share-btn');
-  shareBtns.forEach(shareBtn => {
-    shareBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (hasConfirmedSharing()) {
-        uploadPolaroidImage(div, shareBtn);
-      } else {
-        pendingUpload = { polaroid: div, button: shareBtn };
-        confirmModal.classList.add('open');
-      }
-    });
-  });
+  // Gallery feature temporarily disabled
+  // const shareBtns = div.querySelectorAll('.polaroid-share-btn');
+  // shareBtns.forEach(shareBtn => {
+  //   shareBtn.addEventListener('click', (e) => {
+  //     e.stopPropagation();
+  //     e.preventDefault();
+  //     if (hasConfirmedSharing()) {
+  //       uploadPolaroidImage(div, shareBtn);
+  //     } else {
+  //       pendingUpload = { polaroid: div, button: shareBtn };
+  //       confirmModal.classList.add('open');
+  //     }
+  //   });
+  // });
 
   const emailBtns = div.querySelectorAll('.polaroid-email-btn');
   emailBtns.forEach(btn => {
@@ -282,11 +283,12 @@ confirmModal.addEventListener('click', (e) => {
 
 function closeConfirmModal() { confirmModal.classList.remove('open'); }
 
-// Gallery Modal Logic
+// Gallery Modal Logic - temporarily disabled
 galleryTrigger.addEventListener('click', (e) => {
     e.preventDefault();
-    galleryModal.classList.add('open');
-    fetchGallery();
+    alert('Gallery feature is temporarily disabled.');
+    // galleryModal.classList.add('open');
+    // fetchGallery();
 });
 
 galleryClose.addEventListener('click', closeGalleryModal);
@@ -526,7 +528,7 @@ function makeDraggable(elm) {
   function dragStart(e) {
     if (
       e.target.closest('.caption-main') ||
-      e.target.closest('.polaroid-share-btn') ||
+      // e.target.closest('.polaroid-share-btn') ||
       e.target.closest('.polaroid-email-btn') ||
       e.target.closest('.flip-btn')
     ) return;
