@@ -501,6 +501,78 @@ video#cam-feed {
 }
 .flash-active { opacity: 0.8; }
 
+/* Instruction Card */
+.instruction-card {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 180px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  z-index: 10; /* Above desk bg, below polaroids (100+) */
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(1deg);
+  width: 40px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(0,0,0,0.05);
+  border-right: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  backdrop-filter: blur(2px);
+  opacity: 0.6;
+  z-index: 11;
+}
+
+.instruction-header {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--dots-color);
+  padding-bottom: 8px;
+}
+
+.instruction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.instruction-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  font-weight: 500;
+  width: 16px;
+}
+
+.step-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
 /* Email Modal */
 .email-modal {
   position: fixed;
@@ -637,5 +709,10 @@ video#cam-feed {
   .btn-container { top: 10px; right: 10px; }
   .polaroid { width: 150px; }
   .polaroid img { height: 150px; }
+  
+  .instruction-card {
+    bottom: 20px;
+    right: 20px;
+    transform: scale(0.9) rotate(-2deg);
+  }
 }
-
