@@ -30,6 +30,22 @@ let pendingEmailPolaroid = null;
 let demosCleared = false;
 let pendingUpload = null;
 
+/**
+ * Normalizes X/Twitter handle input to just the handle (without @ or URL)
+ * Accepts: @username, username, x.com/username, twitter.com/username, etc.
+ */
+function normalizeXHandle(input) {
+  if (!input) return null;
+  let handle = input.trim();
+  // Remove URL prefixes (http(s)://)(www.)(twitter|x).com/
+  handle = handle.replace(/^(https?:\/\/)?(www\.)?(twitter|x)\.com\//i, '');
+  // Remove @ prefix
+  handle = handle.replace(/^@/, '');
+  // Remove trailing slashes or query params
+  handle = handle.split(/[?\/]/)[0];
+  return handle || null;
+}
+
 navigator.mediaDevices
   .getUserMedia({ video: { facingMode: 'user', width: 480, height: 480 } })
   .then((stream) => (video.srcObject = stream))
@@ -81,6 +97,14 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
             <button class="polaroid-email-btn" title="Send via Email">Email</button>
         </div>
       <button class="flip-btn" title="Flip to front">↻</button>
+      <div class="x-profile-section">
+        <div class="x-profile-label">Connect on X</div>
+        <input type="text" class="x-handle-input" placeholder="@yourhandle" spellcheck="false" />
+        <a class="x-profile-link" href="#" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span class="x-handle-display"></span>
+        </a>
+      </div>
     </div>
     </div>
   `;
@@ -134,6 +158,59 @@ function createPolaroidElement(imgSrc, dateStr, top, left, rot, isDemo = false, 
       if (e.key === 'Enter') e.preventDefault();
     });
   }
+
+  // X Handle input/link toggle logic
+  const xHandleInput = div.querySelector('.x-handle-input');
+  const xProfileLink = div.querySelector('.x-profile-link');
+  const xHandleDisplay = div.querySelector('.x-handle-display');
+
+  function setXHandleDisplay(handle) {
+    if (handle) {
+      div.dataset.xHandle = handle;
+      xHandleDisplay.textContent = '@' + handle;
+      xProfileLink.href = 'https://x.com/' + handle;
+      xHandleInput.style.display = 'none';
+      xProfileLink.style.display = 'flex';
+    } else {
+      delete div.dataset.xHandle;
+      xHandleInput.style.display = 'block';
+      xProfileLink.style.display = 'none';
+    }
+  }
+
+  function handleXHandleSubmit() {
+    const handle = normalizeXHandle(xHandleInput.value);
+    if (handle) {
+      setXHandleDisplay(handle);
+    }
+  }
+
+  if (xHandleInput) {
+    xHandleInput.addEventListener('blur', handleXHandleSubmit);
+    xHandleInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleXHandleSubmit();
+        xHandleInput.blur();
+      }
+    });
+  }
+
+  // Allow clicking the link to edit (double-click)
+  if (xProfileLink) {
+    xProfileLink.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      xHandleInput.value = div.dataset.xHandle || '';
+      xHandleInput.style.display = 'block';
+      xProfileLink.style.display = 'none';
+      xHandleInput.focus();
+      xHandleInput.select();
+    });
+  }
+
+  // Initialize - hide link, show input by default
+  setXHandleDisplay(null);
 
   makeDraggable(div);
   return div;
@@ -341,7 +418,9 @@ function makeDraggable(elm) {
       e.target.closest('.caption-main') ||
       // e.target.closest('.polaroid-share-btn') ||
       e.target.closest('.polaroid-email-btn') ||
-      e.target.closest('.flip-btn')
+      e.target.closest('.flip-btn') ||
+      e.target.closest('.x-handle-input') ||
+      e.target.closest('.x-profile-link')
     ) return;
 
     e.preventDefault();

@@ -490,6 +490,67 @@ video#cam-feed {
 .polaroid.flipped .polaroid-front .flip-btn { display: none !important; }
 .polaroid:not(.flipped) .polaroid-back .flip-btn { display: none !important; }
 
+/* X Profile Section on Polaroid Back */
+.x-profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.x-profile-label {
+  font-family: var(--font-hand);
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.x-handle-input {
+  width: 140px;
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  text-align: center;
+  background: var(--bg-color);
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+.x-handle-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.x-handle-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.x-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  transition: all 0.2s;
+}
+
+.x-profile-link:hover {
+  background: var(--border-color);
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
 .flash {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
